@@ -1,0 +1,210 @@
+% assign each to a bank, give interest.
+% write out descriptions (with highlighted clues.)
+% add in inventories
+% make cash flows all net to magic number at end of period.
+% fix circular reference caused by cash asset (by using magic number!)
+% hide letters:
+% in income before taxes line
+% in net cash flows from opex line
+% in total current assets line
+% in stockholders' equity (assets - liabilities)
+
+\documentclass[10pt]{article}
+\small
+
+\usepackage{color}
+\usepackage{latexsym,amssymb}
+\usepackage{relsize,fancyhdr,multicol,array,multirow,amsmath}
+\usepackage{tikz}
+\usepackage{wordlike}
+\usepackage{etoolbox}
+\usepackage{siunitx} % allows aligning a tabular to a decimal point.
+
+%\usepackage{forloop}
+
+\usepackage{colortbl}
+
+% create a column type to align at the decimal point.
+\usepackage{dcolumn}
+\newcolumntype{.}{D{.}{.}{-1}}
+
+% end usepackage statements
+
+%\addtolength{\oddsidemargin}{-.875in}
+%\addtolength{\evensidemargin}{-.875in}
+%\addtolength{\textwidth}{1.75in}
+
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1in}
+\addtolength{\leftmargin}{-.5in}
+\addtolength{\textwidth}{.5in}
+
+\setlength{\parskip}{10pt plus 1pt minus 1pt}
+\setlength{\parindent}{0pt}
+
+% now some logic
+
+\newtoggle{solution}
+\toggletrue{solution}
+\togglefalse{solution}
+
+% set the colors for solution / puzzle:
+
+\iftoggle{solution}{
+\definecolor{soln-black}{gray}{0.0}
+\definecolor{soln-lightblue}{rgb}{0.4,0.5,1}
+}
+{
+\definecolor{soln-black}{gray}{1.0}
+\definecolor{soln-lightblue}{rgb}{1,1,1}
+}
+
+% set definition that depend on colors:
+
+\newcommand\mybox[2][]{\tikz[overlay]\node[fill=soln-lightblue!20,inner sep=2pt, anchor=text, rectangle, rounded corners=1mm,#1] {#2};\phantom{#2}}
+
+% and now the document
+
+\begin{document}
+
+\iftoggle{solution}{
+
+\setcounter{page}{0}
+
+\section*{Growth and Fixed Costs: \textcolor{soln-lightblue}{Solution}}
+
+\input{flavortext}
+{\fontfamily{cmr}\selectfont
+Things to notice about the financial statements:
+
+\vspace{-.1in}
+\begin{itemize}
+
+\item There is enough information to match the company profiles to the
+  financial statements, and so put the financial statements in order.
+
+\item The number ``614050'' appears frequently and is in a different font.  This should be the most notable thing about the cash flow statements.
+
+\item When the statements are put in order, the tax amounts (in the statement of operations) can be converted to numbers to read ``Taxes form a red herring.''
+
+\item some lines in the Statement of Assets \& Liabilities don't add
+  up right: they're off by a number between 1 and 26.
+
+\end{itemize}
+\vspace{-.1in}
+
+Given the above, the steps to solving this puzzle are:
+
+\vspace{.1in}
+\textbf{\large 1. Match statements to company descriptions}
+
+This gives an ordering of the financial statements.  
+
+The keys to matching are:
+
+\vspace{-.1in}
+\begin{itemize}
+
+\item Size of a company: there are a few initial revenue numbers: 100,000; 50,000; 30,000; 10,000.
+
+\item Speed a company gets paid or pays its bills: 
+``Receivables days'' and ``payables days'' are well-defined concepts.
+
+\item Amount of inventory a company holds:\\
+Restaurants, for instance, hold inventory only for a few days because most of it is perishable.
+
+Note that the puzzle should be solvable without knowing those things
+in advance, since ``payables days'', ``receivables days'', and
+``inventory days'' are referred to in a company description, and these
+are google-able.
+
+\item interest paid on loans: higher by customers of First Wonderland, lower by customers of the Standard Bank.
+
+\item ``Intangible assets'' or brand worth, held by companies with consumer brands
+
+\item ``Goodwill'' some companies have accumulated by acquiring companies for more than the acquisitions' book values
+
+\item And a few special items, such as:
+
+\begin{itemize}
+\vspace{-.1in}
+\item legal fees awarded from one company to another
+
+\item dividends paid by companies owned by the Red Queen or White King
+
+\end{itemize}
+
+\end{itemize}
+\vspace{-.1in}
+
+\vspace{.1in}
+\textbf{\large 2. Find errors in the financial statements; convert to letters}
+
+These are lines that don't ``add up''.  Each statement has a line off
+by a value $<$ 26; these can be converted to letters (1 = A, 2 = B, etc) to
+spell the clue phrase ``SEARCHHBSPHARVARDEDU'' or Search
+hbsp.harvard.edu .
+
+\vspace{.1in}
+\textbf{\large 3. Search for the out-of-place number}
+
+If you search hbsp.harvard.edu for ``13024''--- every company's
+cash balance at the end of the period, the only number introduced
+that's not a multiple of 100, and the amount of other items such as
+legal fees or goodwill---you get a case with subtitle ``Women are the
+solution'' (for testsolving) or with title ``The answer is secondary''
+during hunt.
+
+}}{}
+
+\newpage
+
+
+\iftoggle{solution}{
+\section*{Growth and Fixed Costs: \textcolor{soln-lightblue}{Solution}}
+}{
+\section*{Growth and Fixed Costs}
+}
+
+\input{flavortext}
+
+%\input{descriptions}
+
+\foreach \n in {1,...,20}{
+      \input{tabular-open}
+      \textbf{{\n}. \input{\n}}\\
+      \input{desc-\n}\\
+      \input{tabular-close}
+}
+
+
+% \iftoggle{solution}{
+%     \foreach \n in {1,...,20}{
+%       \begin{tabular}{p{0.4\textwidth} | c  | c  | c  | c  | c  | c  | c  | c  | c  | c | c  | c  | c  |}
+%       \textbf{{\n}.} \input{\n} & \hspace{10pt}  & \hspace{10pt}  & \hspace{10pt}  & \hspace{10pt}  & \hspace{10pt}  & \hspace{10pt}  & \hspace{10pt}  & \hspace{10pt}  & \hspace{10pt}  & \hspace{10pt}  & \hspace{10pt} & \hspace{10pt} & \hspace{10pt}\\
+%       \hline
+%       \end{tabular}\\
+%     } % close foreach    
+% }{}
+
+\foreach \n in {12,19,3,6,16,8,11,18,9,2,17,7,1,13,20,5,15,4,10,14}{
+%\foreach \n in {1,...,20}{
+    \newpage
+
+    \iftoggle{solution}{
+      \input{tabular-open}
+      \textbf{{\n}. \input{\n}}\\
+      \input{desc-\n}
+      \input{tabular-close}
+    }{
+      \vspace{2in}
+    }
+    \input{statement-\n}
+
+    \input{soln-\n}
+
+
+  }%
+
+
+\end{document}

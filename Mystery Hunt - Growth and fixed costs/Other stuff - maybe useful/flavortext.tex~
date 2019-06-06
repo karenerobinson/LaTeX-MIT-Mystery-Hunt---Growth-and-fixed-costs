@@ -1,0 +1,6 @@
+\input{tabular-open}
+{\it The financial statements of two Wonderland banks and all their
+  customers were set aside for tax irregularities... something here
+  doesn't add up.}\\
+\input{tabular-close}
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}

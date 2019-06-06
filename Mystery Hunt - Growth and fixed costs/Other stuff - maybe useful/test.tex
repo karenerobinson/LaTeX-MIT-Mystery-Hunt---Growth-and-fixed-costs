@@ -1,0 +1,97 @@
+% assign each to a bank, give interest.
+% write out descriptions (with highlighted clues.)
+% add in inventories
+% make cash flows all net to magic number at end of period.
+% fix circular reference caused by cash asset (by using magic number!)
+% hide letters:
+% in income before taxes line
+% in net cash flows from opex line
+% in total current assets line
+% in stockholders' equity (assets - liabilities)
+
+\documentclass{article}
+
+\usepackage{color}
+\usepackage{relsize,fancyhdr,multicol,array,multirow,amsmath}
+\usepackage{tikz}
+\usepackage{wordlike}
+\usepackage{etoolbox}
+\usepackage{siunitx} % allows aligning a tabular to a decimal point.
+
+\usepackage{forloop}
+
+\usepackage{colortbl}
+
+% create a column type to align at the decimal point.
+\usepackage{dcolumn}
+\newcolumntype{.}{D{.}{.}{-1}}
+
+% end usepackage statements
+
+%\addtolength{\oddsidemargin}{-.875in}
+%\addtolength{\evensidemargin}{-.875in}
+%\addtolength{\textwidth}{1.75in}
+
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1in}
+
+\setlength{\parskip}{10pt plus 1pt minus 1pt}
+\setlength{\parindent}{0pt}
+
+% now some logic
+
+\newtoggle{solution}
+\toggletrue{solution}
+%\togglefalse{solution}
+
+% set the colors for solution / puzzle:
+
+\iftoggle{solution}{
+\definecolor{soln-black}{gray}{0.0}
+\definecolor{soln-lightblue}{rgb}{0.4,0.5,1}
+}{
+\definecolor{soln-black}{gray}{1.0}
+\definecolor{soln-lightblue}{rgb}{1,1,1}}
+
+% set definition that depend on colors:
+
+\newcommand\mybox[2][]{\tikz[overlay]\node[fill=soln-lightblue!20,inner sep=2pt, anchor=text, rectangle, rounded corners=1mm,#1] {#2};\phantom{#2}}
+
+% and now the document
+
+% command to print the statements:
+
+\newcounter{loopcntr}
+
+\newcommand{\statementpages}[2][1]{%
+  \forloop{loopcntr}{0}{\value{loopcntr}<#1}{
+    \newpage
+
+    \iftoggle{solution}{
+      \input{tabular-open}
+      \value{loopcntr}. \input{\value{loopcntr}.tex}\\
+      \input{desc-\value{loopcntr}}
+      \input{tabular-close}
+    }{
+      \vspace{2in}
+    }
+    \input{statement-\value{loopcntr}}
+  }%
+
+}
+
+% end.
+
+\begin{document}
+
+\input{tabular-open}
+
+\foreach \n in {1,...,20}{
+  {\n}. \input{\n}\\
+  \input{desc-\n}\\
+}
+
+\input{tabular-close}
+
+
+\end{document}
